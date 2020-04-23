@@ -1,6 +1,10 @@
 <?php
 
-class users extends DB
+namespace App\Models;
+
+use App\Core\Helper;
+
+class User extends Model
 {
     protected $id;
     protected $firstname;
@@ -10,14 +14,16 @@ class users extends DB
     protected $status;
 
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
-    public function setId($id)
+    public function setId($id): self
     {
         $this->id=$id;
+        return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
     public function setFirstname($firstname)
     {
@@ -46,7 +52,7 @@ class users extends DB
         return [
                     "config"=>[
                         "method"=>"POST", 
-                        "action"=>helpers::getUrl("user", "register"),
+                        "action"=>Helper::getUrl("user", "register"),
                         "class"=>"user",
                         "id"=>"formRegisterUser",
                         "submit"=>"S'inscrire"

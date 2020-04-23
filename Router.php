@@ -5,7 +5,7 @@ use \App\Controllers\UserController;
 
 class Router {
 
-    private $params;
+    private $params = [];
     private $routes;
     private $routeCalled;
 
@@ -20,7 +20,8 @@ class Router {
         include('routes.php');
         $uriParams = explode('?', $_SERVER['REQUEST_URI'], 2);
         $this->routeCalled = $uriParams[0];
-        $this->params = $this->getParams($uriParams[1]);
+        if(isset($uriParams[1]))
+            $this->params = $this->getParams($uriParams[1]);
         $this->routes =  getRoutes();
         return;
     }
@@ -64,6 +65,7 @@ function getParams($params) {
     $result = [];
     foreach($explodedParams as $param) {
         $data = explode("=", $param);
+        if(isset($data[1]))
         $result[$data[0]] =  $data[1];
     }
     return $result;

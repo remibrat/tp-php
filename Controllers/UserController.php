@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use Models\UserManager;
+use App\Managers\UserManager;
 
 class UserController
 {
@@ -18,8 +18,12 @@ class UserController
 
     public function getAction($params)
     {
-        
-        (new UserManager())->getUser($params['id']);
+        $userManager = new UserManager();
+
+        $user = $userManager->find($params['id']);
+        //$user->setFirstname('D');
+        //$userManager->save($user);
+
         echo "get add";
     }
 

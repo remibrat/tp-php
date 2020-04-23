@@ -56,5 +56,6 @@ class Validator{
 	}
 
 	public static function checkPwd($email){
+	}
 
 }
