@@ -2,23 +2,23 @@
 
 namespace App\Core;
 
+use App\Core\Connection\BDDInterface;
+use App\Core\Connection\PDOConnection;
 
 class Manager
 {
     private $table;
-    private $pdo;
+    private $connection;
     protected $class;
 
-    public function __construct(string $class, string $table)
+    public function __construct(string $class, string $table, BDDInterface $connection = null)
     {
         $this->class = $class;
-        //SINGLETON
-        try {
-            $this->pdo = new \PDO(DB_DRIVER.":host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PWD);
-        } catch (\Throwable $e) {
-            die("Erreur SQL : ".$e->getMessage());
-        }
         $this->table =  DB_PREFIXE.$table;
+        
+        $this->connection = $connection;
+        if(NULL === $connection)
+            $this->connection = new PDOConnection();
     }
 
 
@@ -50,7 +50,7 @@ class Manager
             $sql = "UPDATE ".$this->table." SET ".implode(",", $sqlUpdate)." WHERE id=:id;";
         }
        
-        $this->sql($sql, $params);
+        $this->connection->query($sql, $params);
 
     }
 
@@ -58,9 +58,9 @@ class Manager
     {
         $sql = "SELECT * FROM $this->table where id = :id";
 
-        $result = $this->sql($sql, [':id' => $id]);
-
-        $row = $result->fetch();
+        $result = $this->connection->query($sql, [':id' => $id]);
+        
+        $row = $result->getOneOrNullResult();
 
         if ($row) {
 
@@ -76,9 +76,9 @@ class Manager
     {
         $sql = "SELECT * FROM $this->table";
 
-        $result = $this->sql($sql);
+        $result = $this->connection->query($sql);
 
-        $rows = $result->fetchAll();
+        $rows = $result->getArrayResult();
         
         $results = array();
         
@@ -124,8 +124,8 @@ class Manager
         }
         // Select * FROM users WHERE firstname LIKE :firstname ORDER BY id desc
 
-        $result = $this->sql($sql, $params);
-        $rows = $result->fetchAll();
+        $result = $this->connection->query($sql, $params);
+        $rows = $result->getArrayResult();
         
         foreach($rows as $row) {
             $object = new $this->class();
@@ -155,8 +155,8 @@ class Manager
 
         $sql = rtrim($sql, 'and');
 
-        $result = $this->sql($sql, $params);
-        return $result->fetchColumn();
+        $result = $this->connection->query($sql, $params);
+        return $result->getValueResult();
 
 
     }
@@ -167,7 +167,7 @@ class Manager
 
         $sql = "DELETE FROM $this->table where id = :id";
 
-        $result = $this->sql($sql, [':id' => $id]);
+        $result = $this->connection->query($sql, [':id' => $id]);
 
         return true;
 

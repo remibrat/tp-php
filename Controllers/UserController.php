@@ -29,14 +29,11 @@ class UserController
         if(!$user) {
             throw new NotFoundException("User not found");
         }
-
-        //echo json_encode($user);
+        
         $users = $userManager->findAll();
 
         $partialUsers = $userManager->findBy(['firstname' => "Fadyl%"], ['id' => 'desc']);
 
-        $count = $userManager->count(['firstname' => "Fadyl%"]);
-        
         $userManager->delete(5);
 
         echo "get user";
