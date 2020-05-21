@@ -1,6 +1,12 @@
 <?php
+
+namespace App\Core;
+
+use App\Core\Helper;
+
 class View
 {
+
     private $template;
     private $view;
     private $data = [];

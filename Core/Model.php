@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Core;
 
 
-class Model
+class Model implements \JsonSerializable
 {
 
     public function __toArray(): array
     {
-        $property = get_object_vars($this);
-
-        return $property;
+        return get_object_vars($this);
     }
 
+    // Il est possible ici de remplacer l'objet courant par $this si vous le souhaitez
     public function hydrate(array $row)
     {
         $className = get_class($this);
@@ -27,4 +26,10 @@ class Model
 
         return $articleObj;
     }
+
+    public function jsonSerialize() {
+
+        return $this->__toArray();
+    }
+
 }

@@ -11,7 +11,11 @@
                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
               </div>
 
-              <?php $this->addModal("form", $configFormUser );?>
+              <?php
+
+
+
+$this->addModal("form", $configFormUser->getForm() );?>
 
 
               
@@ -19,10 +23,10 @@
 
               <hr>
               <div class="text-center">
-                <a class="small" href="<?= helpers::getUrl("user", "forgotPwd")?>">Forgot Password?</a>
+                <a class="small" href="<?= Helper::getUrl("user", "forgotPwd")?>">Forgot Password?</a>
               </div>
               <div class="text-center">
-                <a class="small" href="<?= helpers::getUrl("user", "login")?>">Already have an account? Login!</a>
+                <a class="small" href="<?= Helper::getUrl("user", "login")?>">Already have an account? Login!</a>
               </div>
             </div>
           </div>

@@ -34,6 +34,7 @@ class ConstantLoader
 
     public function load()
     {
+        define('root_dir', dirname(__DIR__));
         $lines = explode("\n", $this->text);
         foreach ($lines as $line) {
             $data = explode("=", $line);

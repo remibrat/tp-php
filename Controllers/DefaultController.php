@@ -8,9 +8,9 @@ class DefaultController
 
         //Récupéré depuis la bdd
         $firstname = "Yves";
-        
+        echo 'Default default';
         //View dashboard sur le template back
-        $myView = new View("dashboard");
-        $myView->assign("firstname", $firstname);
+       // $myView = new View("dashboard");
+        //$myView->assign("firstname", $firstname);
     }
 }

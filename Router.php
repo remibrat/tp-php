@@ -1,7 +1,9 @@
 <?php
 namespace App;
 
-use \App\Controllers\UserController;
+use App\Core\Exceptions\NotFoundException;
+use PDOException;
+use Throwable;
 
 class Router {
 
@@ -28,14 +30,15 @@ class Router {
 
     public function manageUrl()
     {
+       
+
         if (!empty($this->routes[$this->routeCalled])) {
-            $c =  $this->routes[$this->routeCalled]["controller"]."Controller";
+            $c =  'App\Controllers\\'.ucfirst($this->routes[$this->routeCalled]["controller"]."Controller");
             $a =  $this->routes[$this->routeCalled]["action"]."Action";
         
             
                try {
-                   
-                    $controller = new UserController();
+                    $controller = new $c();
                } catch( \Throwable $t) {
                     die("Le fichier controller n'existe pas");
                }
@@ -48,12 +51,23 @@ class Router {
                         //EXEMPLE :
                         //$controller est une instance de la class UserController
                         //$a = userAction est une méthode de la class UserController
-                        $controller->$a($this->params);
+                       try {
+                            $controller->$a($this->params);
+                       } catch(NotFoundException $e) {
+                          
+                           echo $e->getMessage();
+                       }
+                       
+                       
+                        
                     } else {
+                        
                         die("L'action' n'existe pas");
                     }
                 
         } else {
+            // $errorsController = new ErrorContrller();
+            // $errorsController->404()
             die("L'url n'existe pas : Erreur 404");
         }
         

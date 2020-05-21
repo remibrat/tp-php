@@ -2,7 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Core\View;
 use App\Managers\UserManager;
+use App\Core\Exceptions\NotFoundException;
+use App\Forms\RegisterType;
 
 class UserController
 {
@@ -21,10 +24,22 @@ class UserController
         $userManager = new UserManager();
 
         $user = $userManager->find($params['id']);
-        //$user->setFirstname('D');
-        //$userManager->save($user);
 
-        echo "get add";
+
+        if(!$user) {
+            throw new NotFoundException("User not found");
+        }
+
+        //echo json_encode($user);
+        $users = $userManager->findAll();
+
+        $partialUsers = $userManager->findBy(['firstname' => "Fadyl%"], ['id' => 'desc']);
+
+        $count = $userManager->count(['firstname' => "Fadyl%"]);
+        
+        $userManager->delete(5);
+
+        echo "get user";
     }
 
     public function removeAction()
@@ -33,11 +48,9 @@ class UserController
     }
 
 
-
-
     public function loginAction()
     {
-        //$myView = new View("login", "account");
+        $myView = new View("login", "account");
     }
 
     public function registerAction()
@@ -64,9 +77,10 @@ class UserController
         $user->save();
         */
 
+        $registerType = new RegisterType();
 
-        //$myView = new View("register", "account");
-        //$myView->assign("configFormUser", $configFormUser);
+        $myView = new View("register", "account");
+        $myView->assign("configFormUser", $registerType);
     }
 
     public function forgotPwdAction()

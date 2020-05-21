@@ -6,7 +6,8 @@ class Helper
 {
     public static function getUrl($controller, $action)
     {
-        $listOfRoutes = yaml_parse_file("routes.yml");
+       
+        $listOfRoutes = getRoutes();
 
         foreach ($listOfRoutes as $url=>$route) {
             if ($route["controller"] == $controller && $route["action"]==$action) {

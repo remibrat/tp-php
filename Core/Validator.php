@@ -1,4 +1,6 @@
 <?php 
+namespace App\Core;
+
 class Validator{
 
 	public static function checkForm($configForm, $data){
@@ -32,7 +34,7 @@ class Validator{
 					
 
 				//Vérifier le captcha
-				if($_SESSION["captcha"] != ?????){
+				if($_SESSION["captcha"] != '?????'){
 
 				}
 
