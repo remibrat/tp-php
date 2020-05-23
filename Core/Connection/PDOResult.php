@@ -21,12 +21,7 @@ class PDOResult implements ResultInterface
 
     public function getOneOrNullResult(): ?array
     {
-        try {
-            return  $this->statement->fetch();
-        } catch(Throwable $t) {
-            echo $t->getMessage();
-        }
-        
+        return $this->statement->fetch(); 
     }
 
     public function getValueResult()
