@@ -2,12 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Core\Controller;
 use App\Core\View;
+use App\Models\User;
+use App\Forms\RegisterType;
 use App\Managers\UserManager;
 use App\Core\Exceptions\NotFoundException;
-use App\Forms\RegisterType;
 
-class UserController
+class UserController extends Controller
 {
     public function defaultAction()
     {
@@ -76,8 +78,10 @@ class UserController
 
         $registerType = new RegisterType();
 
-        $myView = new View("register", "account");
-        $myView->assign("configFormUser", $registerType);
+        $this->render("register", "account", [
+            "configFormUser" => $registerType
+        ]);
+    
     }
 
     public function forgotPwdAction()
