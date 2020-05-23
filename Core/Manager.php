@@ -36,7 +36,8 @@ class Manager
         );;
         
         if (!is_numeric($objectToSave->getId())) {
-            
+            array_shift($columns);
+            array_shift($params);
             //INSERT
             $sql = "INSERT INTO ".$this->table." (".implode(",", $columns).") VALUES (:".implode(",:", $columns).");";
             //foreach()
@@ -49,7 +50,6 @@ class Manager
 
             $sql = "UPDATE ".$this->table." SET ".implode(",", $sqlUpdate)." WHERE id=:id;";
         }
-       
         $this->connection->query($sql, $params);
 
     }
@@ -63,7 +63,6 @@ class Manager
         $row = $result->getOneOrNullResult();
 
         if ($row) {
-
             $object = new $this->class();
             return $object->hydrate($row);
         } else {

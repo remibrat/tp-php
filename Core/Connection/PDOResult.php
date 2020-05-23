@@ -22,7 +22,7 @@ class PDOResult implements ResultInterface
     public function getOneOrNullResult(): ?array
     {
         try {
-        return  $this->statement->fetch();
+            return  $this->statement->fetch();
         } catch(Throwable $t) {
             echo $t->getMessage();
         }

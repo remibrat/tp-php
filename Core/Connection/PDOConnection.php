@@ -3,7 +3,7 @@
 namespace App\Core\Connection;
 
 
-class PDOConnection extends \PDO implements BDDInterface
+class PDOConnection implements BDDInterface
 {
 
     protected $pdo;
